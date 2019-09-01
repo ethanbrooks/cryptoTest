@@ -1,0 +1,23 @@
+# THIS IS ONLY INTENDED FOR DEVELOPMENT USAGE
+
+# Start: docker-compose up
+# You can freely modify this file
+
+version: '3'
+
+services:
+  osjs:
+    build:
+      context: .
+      args:
+        - NODE_ENV=${DOCKER_NODE_ENV:-development}
+        - DOCKER_UID=${DOCKER_UID:-1000}
+        - DOCKER_GID=${DOCKER_GID:-1000}
+    environment:
+      - NODE_ENV=${DOCKER_NODE_ENV:-development}
+    command: nodemon --watch package-lock.json --watch src/server --watch src/packages src/server/index.js
+    volumes:
+      - ./src:/usr/src/crytpoTest/src
+      - ./vfs:/usr/src/cryptoTest/vfs
+    ports:
+      - "${DOCKER_NODE_PORT:-8000}:8000"
